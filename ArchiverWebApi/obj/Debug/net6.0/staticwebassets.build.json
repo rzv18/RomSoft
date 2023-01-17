@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "Hash": "p4GDjVO6HpQ3MEgizVgs+S2u28FqExRBruR5LDEyjLo=",
+  "Source": "ArchiverWebApi",
+  "BasePath": "_content/ArchiverWebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ArchiverWebApi\\wwwroot",
+      "Source": "ArchiverWebApi",
+      "ContentRoot": "C:\\Users\\2014042\\source\\repos\\RomSoft\\ArchiverWebApi\\wwwroot\\",
+      "BasePath": "_content/ArchiverWebApi",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\2014042\\source\\repos\\RomSoft\\ArchiverWebApi\\wwwroot\\js\\signalr\\dist\\browser\\signalr.js",
+      "SourceId": "ArchiverWebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\2014042\\source\\repos\\RomSoft\\ArchiverWebApi\\wwwroot\\",
+      "BasePath": "_content/ArchiverWebApi",
+      "RelativePath": "js/signalr/dist/browser/signalr.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\signalr\\dist\\browser\\signalr.js"
+    },
+    {
+      "Identity": "C:\\Users\\2014042\\source\\repos\\RomSoft\\ArchiverWebApi\\wwwroot\\js\\signalr\\dist\\browser\\signalr.min.js",
+      "SourceId": "ArchiverWebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\2014042\\source\\repos\\RomSoft\\ArchiverWebApi\\wwwroot\\",
+      "BasePath": "_content/ArchiverWebApi",
+      "RelativePath": "js/signalr/dist/browser/signalr.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\signalr\\dist\\browser\\signalr.min.js"
+    }
+  ]
+}

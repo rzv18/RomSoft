@@ -1,0 +1,15 @@
+C:\Users\2014042\source\repos\RomSoft\Business\bin\Debug\net6.0\Business.deps.json
+C:\Users\2014042\source\repos\RomSoft\Business\bin\Debug\net6.0\Business.dll
+C:\Users\2014042\source\repos\RomSoft\Business\bin\Debug\net6.0\Business.pdb
+C:\Users\2014042\source\repos\RomSoft\Business\bin\Debug\net6.0\Models.dll
+C:\Users\2014042\source\repos\RomSoft\Business\bin\Debug\net6.0\Models.pdb
+C:\Users\2014042\source\repos\RomSoft\Business\obj\Debug\net6.0\Business.csproj.AssemblyReference.cache
+C:\Users\2014042\source\repos\RomSoft\Business\obj\Debug\net6.0\Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\2014042\source\repos\RomSoft\Business\obj\Debug\net6.0\Business.AssemblyInfoInputs.cache
+C:\Users\2014042\source\repos\RomSoft\Business\obj\Debug\net6.0\Business.AssemblyInfo.cs
+C:\Users\2014042\source\repos\RomSoft\Business\obj\Debug\net6.0\Business.csproj.CoreCompileInputs.cache
+C:\Users\2014042\source\repos\RomSoft\Business\obj\Debug\net6.0\Business.csproj.CopyComplete
+C:\Users\2014042\source\repos\RomSoft\Business\obj\Debug\net6.0\Business.dll
+C:\Users\2014042\source\repos\RomSoft\Business\obj\Debug\net6.0\refint\Business.dll
+C:\Users\2014042\source\repos\RomSoft\Business\obj\Debug\net6.0\Business.pdb
+C:\Users\2014042\source\repos\RomSoft\Business\obj\Debug\net6.0\ref\Business.dll

@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<body>
+<div>
+
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Index">
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Upload files using this form:</p>
+                <input type="file" name="files" multiple=""/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Upload"/>
+            </div>
+        </div>
+    </form>
+
+    <p>@ViewBag.toast</p>
+        <p style="font-size: medium; font-weight: bold"><label id="lblFileUploaded"></label></p>
+</div>
+<div>
+    <input type="button" id="btnDownload"  value="Download" onclick="location.href='@Url.Action("GetArchive", "Home")'"/>
+</div>
+    <script src="~/lib/signalr/signalr.js"></script>
+<script type="text/javascript">
+    "use strict";
+    var connectionId = '@ViewBag.ConnectionId'
+    var connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7217/FileUploadedHub")
+
+    .build();
+    
+            document.getElementById("btnDownload").disabled = true;
+    connection.start();
+    console.log(connection);
+        connection.on("FileArchived", function (msg) {
+    //alert('message')
+            document.getElementById("btnDownload").disabled = false;
+            document.getElementById('lblFileUploaded').innerHTML = msg
+    console.log('message ',msg)
+    var li = document.createElement("li");
+    li.textContent = msg;
+    document.getElementById("msgList").appendChild(li);
+    })
+</script>
+</body>
