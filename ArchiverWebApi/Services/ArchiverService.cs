@@ -1,32 +1,27 @@
 ﻿using System.Collections;
 using System.IO.Compression;
 using ArchiverWebApi.Services.Contracts;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ArchiverWebApi.Services
 {
     public class ArchiverService : IArchiverService
     {
-        public bool TryArchive(byte[] content, out byte[] archive, string modelConnectionId)
+        public bool TryArchive(byte[] content, out byte[] archive, string modelConnectionId, string filename)
         {
             try
             {
                 Thread.Sleep(TimeSpan.FromSeconds(2));
-                using (var ms = new MemoryStream())
+                using var ms = new MemoryStream();
+                using (var zipArchive = new ZipArchive(ms, ZipArchiveMode.Create, true))
                 {
-                    using (var zipArchive = new ZipArchive(ms, ZipArchiveMode.Create, true))
+                    var entry = zipArchive.CreateEntry(filename, CompressionLevel.Fastest);
+                    using (var entryStream = entry.Open())
                     {
-                        var entry = zipArchive.CreateEntry("file", CompressionLevel.Fastest);
-                        using (var entryStream = entry.Open())
-                        {
-                            entryStream.Write(content, 0, content.Length);
-                        }
-
+                        entryStream.Write(content, 0, content.Length);
                     }
 
-                    archive = ms.ToArray();
                 }
-                
+                archive = ms.ToArray();
                 return true;
             }
             catch(Exception ex)

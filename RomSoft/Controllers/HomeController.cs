@@ -46,7 +46,7 @@ namespace RomSoft.Controllers
                     using var stream = new MemoryStream();
                     await formFile.CopyToAsync(stream);
 
-                    var success = await _archiveService.Archive(stream.ToArray(), _connectionId);
+                    var success = await _archiveService.Archive(stream.ToArray(), _connectionId, formFile.FileName);
                     DoAfterArchiveTasks(success);
                 }
             }
@@ -61,7 +61,11 @@ namespace RomSoft.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+        public async Task<IActionResult> GetArchive()
+        {
+            var byteArray = await _archiveService.GetByConnectionId(_connectionId);
+            return new FileContentResult(byteArray.ToArray(), "application/zip") { FileDownloadName = "Filename.zip" };
+        }
         #region SignalR
 
         //should move all this in another class if there's more time
@@ -97,24 +101,17 @@ namespace RomSoft.Controllers
 
         #endregion
 
-        public async Task<IActionResult> GetArchive()
-        {
-            var byteArray = await _archiveService.GetByConnectionId(_connectionId);
-
-            return new FileContentResult(byteArray.ToArray(), "application/zip") { FileDownloadName = "Filename.zip" };
-        }
 
 
         private void MessageHandler(string message)
         {
             _archiveLogs[_connectionId].Status = ArchiveStatus.Success;
-            var startDate = DateTime.Parse(message.Split(";")[0].Replace("StartDate:", ""));
-            var duration = message.Split(";")[1].Replace("Duration:", "");
-            _archiveLogs[_connectionId].ArchiveStartTime = startDate;
-            _archiveLogs[_connectionId].ArchiveTimeSpan = TimeSpan.Parse(duration);
+            _archiveLogs[_connectionId].ArchiveStartTime = DateTime.Parse(message.Split(";")[0].Replace("StartDate:", "")); ;
+            _archiveLogs[_connectionId].ArchiveTimeSpan = TimeSpan.Parse(message.Split(";")[1].Replace("Duration:", ""));
 
             _archiveService.SaveArchiveLog(_archiveLogs[_connectionId]);
 
+            //send notification to clients
             Task.Run(async ()=> await _hubContext.Clients.All.SendAsync("FileArchived", $"Archive is completed and can be downloaded!"));
         }
         private void DoAfterArchiveTasks(bool started)

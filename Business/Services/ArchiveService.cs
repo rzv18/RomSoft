@@ -16,7 +16,7 @@ namespace Business.Services
             _archivingLogsService = archivingLogsService;
         }
 
-        public async Task<bool> Archive(byte[] stream, string connectionId)
+        public async Task<bool> Archive(byte[] stream, string connectionId, string filename)
         {
             using HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(ArchiverUri);
@@ -25,7 +25,7 @@ namespace Business.Services
 
             try
             {
-                var uploadModel = new ArchiveUploadModel { ConnectionId = connectionId, ContenStream = stream };
+                var uploadModel = new ArchiveUploadModel { ConnectionId = connectionId, ContenStream = stream, Filename = filename};
                 var response = await client.PostAsJsonAsync(ArchiverPath, uploadModel);
                 response.EnsureSuccessStatusCode();
                 return true;
@@ -55,7 +55,9 @@ namespace Business.Services
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadAsByteArrayAsync();
+                    string? result = null;
+                    result = response.Content.ReadAsStringAsync().Result.Replace("\"", string.Empty);
+                    return Convert.FromBase64String(result);
                 }
             }
             catch (HttpRequestException httpEx)

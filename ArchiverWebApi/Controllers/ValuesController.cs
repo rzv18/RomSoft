@@ -47,10 +47,17 @@ namespace ArchiverWebApi.Controllers
             Task.Run(async () =>
             {
                 var startTime = DateTime.Now;
-                var success = _archiverService.TryArchive(model.ContenStream, out byte[] archiveZipped, model.ConnectionId);
+                var success = _archiverService.TryArchive(model.ContenStream, out byte[] archiveZipped, model.ConnectionId, model.Filename);
                 if (success)
                 {
-                    FilesByConnectionId.Add(model.ConnectionId, archiveZipped);
+                    if (FilesByConnectionId.ContainsKey(model.ConnectionId))
+                    {
+                        FilesByConnectionId[model.ConnectionId] = archiveZipped;
+                    }
+                    else
+                    {
+                        FilesByConnectionId.Add(model.ConnectionId, archiveZipped);
+                    }
 
                     //Warn that the file is archived
                     await _hubContext.Clients.Client(model.ConnectionId).Whisper($"StartDate:{startTime};Duration:{DateTime.Now - startTime}");
