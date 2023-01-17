@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using ArchiverWebApi.Services.Contracts;
 
 namespace ArchiverWebApi.Services
@@ -30,27 +29,6 @@ namespace ArchiverWebApi.Services
                 archive = new byte[]{};
                 return false;
             }
-
-            //possible solution to the zip content. Have to investigate further
-            //using var compressedFileStream = new MemoryStream();
-            ////Create an archive and store the stream in memory.
-            //using (var zipArchive = new ZipArchive(compressedFileStream, ZipArchiveMode.Update, false))
-            //{
-            //    var zipEntry = zipArchive.CreateEntry("file.txt");
-
-            //    //Get the stream of the attachment
-            //    using (var originalFileStream = new MemoryStream(content))
-            //    {
-            //        using (var zipEntryStream = zipEntry.Open())
-            //        {
-            //            //Copy the attachment stream to the zip entry stream
-            //            originalFileStream.CopyTo(zipEntryStream);
-            //        }
-            //    }
-
-            //}
-
-            //archive = compressedFileStream.ToArray();
         }
     }
 }

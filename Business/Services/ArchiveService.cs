@@ -8,6 +8,7 @@ namespace Business.Services
 	public class ArchiveService : IArchiveService
     {
         private readonly IArchivingLogsService _archivingLogsService;
+        //This can be moved in a appsettings key, but hardcoded for now
         private const string ArchiverUri = "https://localhost:7024/";
         private const string ArchiverPath = "api/Values";
         
@@ -79,7 +80,6 @@ namespace Business.Services
         {
             _archivingLogsService.AddLog(model);
         }
-
         public ArchivingLogs CreateArchiveLog(string connectionId, ArchiveStatus status)
         {
             var log = new ArchivingLogs

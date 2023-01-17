@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR.Client;
-using RomSoft.Models;
-using System.Diagnostics;
 using Business.Services.Contracts;
-using DataAccess;
 using Models;
-using System.IO;
-using System.IO.Compression;
 using Microsoft.AspNetCore.SignalR;
 using RomSoft.Hubs;
 
@@ -33,41 +28,32 @@ namespace RomSoft.Controllers
         }
 
         [HttpPost("FileUpload")]
-        public async Task<IActionResult> Index(List<IFormFile> files)
+        public async Task<IActionResult> Index(IFormFile file)
         {
-
-            var filePaths = new List<string>();
-            foreach (var formFile in files)
+            if (file.Length <= 0)
             {
-                if (formFile.Length > 0)
-                {
-                    var filePath = Path.GetTempFileName(); //using Temp file name just for the example
-                    filePaths.Add(filePath);
-                    using var stream = new MemoryStream();
-                    await formFile.CopyToAsync(stream);
-
-                    var success = await _archiveService.Archive(stream.ToArray(), _connectionId, formFile.FileName);
-                    DoAfterArchiveTasks(success);
-                }
+                ViewBag.toast = "No file was selected!";
+                return View();
             }
 
+            using var stream = new MemoryStream();
+            await file.CopyToAsync(stream);
+
+            var success = await _archiveService.Archive(stream.ToArray(), _connectionId, file.FileName);
             // process uploaded files
+            DoAfterArchiveTasks(success);
+
             ViewBag.toast = "File sent to archiver successfully!";
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
         public async Task<IActionResult> GetArchive()
         {
             var byteArray = await _archiveService.GetByConnectionId(_connectionId);
             return new FileContentResult(byteArray.ToArray(), "application/zip") { FileDownloadName = "Filename.zip" };
         }
+        
         #region SignalR
-
         //should move all this in another class if there's more time
         private async void InitSignalR()
         {
@@ -83,7 +69,6 @@ namespace RomSoft.Controllers
 
             await ConnectSignalR();
         }
-
         private async Task ConnectSignalR()
         {
             _connection.On<string>("Whisper", MessageHandler);
@@ -93,16 +78,13 @@ namespace RomSoft.Controllers
                 await _connection.StartAsync();
                 _connectionId = _connection.ConnectionId;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
+                // ignored for now
             }
         }
-
         #endregion
-
-
-
+        
         private void MessageHandler(string message)
         {
             _archiveLogs[_connectionId].Status = ArchiveStatus.Success;
