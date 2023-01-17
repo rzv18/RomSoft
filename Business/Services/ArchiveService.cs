@@ -86,7 +86,7 @@ namespace Business.Services
             {
                 ArchiveStartTime = DateTime.Now,
                 Status = status,
-                Filename = connectionId
+                Filename = $"{connectionId}.zip"
             };
 
             //if failed, should add the log here

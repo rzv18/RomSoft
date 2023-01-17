@@ -50,7 +50,7 @@ namespace RomSoft.Controllers
         public async Task<IActionResult> GetArchive()
         {
             var byteArray = await _archiveService.GetByConnectionId(_connectionId);
-            return new FileContentResult(byteArray.ToArray(), "application/zip") { FileDownloadName = $"{_archiveLogs[_connectionId].Filename}.zip" };
+            return new FileContentResult(byteArray.ToArray(), "application/zip") { FileDownloadName = $"{_archiveLogs[_connectionId].Filename}" };
         }
         
         #region SignalR
@@ -90,7 +90,8 @@ namespace RomSoft.Controllers
             _archiveLogs[_connectionId].Status = ArchiveStatus.Success;
             _archiveLogs[_connectionId].ArchiveStartTime = DateTime.Parse(message.Split(";")[0].Replace("StartDate:", "")); ;
             _archiveLogs[_connectionId].ArchiveTimeSpan = TimeSpan.Parse(message.Split(";")[1].Replace("Duration:", ""));
-
+            _archiveLogs[_connectionId].Filename =
+                $"{_connectionId}-{_archiveLogs[_connectionId].ArchiveStartTime.Ticks}.zip";
             _archiveService.SaveArchiveLog(_archiveLogs[_connectionId]);
 
             //send notification to clients
