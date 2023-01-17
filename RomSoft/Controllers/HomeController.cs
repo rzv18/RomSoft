@@ -50,7 +50,7 @@ namespace RomSoft.Controllers
         public async Task<IActionResult> GetArchive()
         {
             var byteArray = await _archiveService.GetByConnectionId(_connectionId);
-            return new FileContentResult(byteArray.ToArray(), "application/zip") { FileDownloadName = "Filename.zip" };
+            return new FileContentResult(byteArray.ToArray(), "application/zip") { FileDownloadName = $"{_archiveLogs[_connectionId].Filename}.zip" };
         }
         
         #region SignalR
