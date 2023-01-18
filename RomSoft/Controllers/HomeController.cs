@@ -30,9 +30,15 @@ namespace RomSoft.Controllers
         [HttpPost("FileUpload")]
         public async Task<IActionResult> Index(IFormFile file)
         {
-            if (file.Length <= 0)
+            if (file == null || file?.Length <= 0)
             {
                 ViewBag.toast = "No file was selected!";
+                return View();
+            }
+
+            if (_connectionId == null)
+            {
+                ViewBag.toast = "The archiver api not available! Please make sure the web api is running!";
                 return View();
             }
 
